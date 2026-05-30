@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Round 2 — You Made It 🎉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FDF8F2;
+    --ink: #1A1108;
+    --soft: #8C7B6B;
+    --accent: #C8502A;
+    --accent-light: #F5E8E2;
+    --gold: #C9A84C;
+    --border: rgba(26,17,8,0.12);
+    --card: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Decorative background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,80,42,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  /* Header / Hero */
+  .hero { text-align: center; padding: 2rem 0 3rem; }
+
+  .round-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 999px;
+    margin-bottom: 1.8rem;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero p {
+    font-size: 1rem;
+    color: var(--soft);
+    line-height: 1.75;
+    max-width: 420px;
+    margin: 0 auto 2rem;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .stat {
+    background: var(--card);
+    padding: 1.2rem 0.5rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    display: block;
+  }
+  .stat-num.accent { color: var(--accent); }
+  .stat-label {
+    font-size: 11px;
+    color: var(--soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* Criteria */
+  .criteria-box {
+    background: var(--accent-light);
+    border: 1px solid rgba(200,80,42,0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease 0.35s both;
+  }
+  .criteria-title {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 1rem;
+  }
+  .criteria-list { list-style: none; }
+  .criteria-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink);
+    padding: 5px 0;
+    line-height: 1.5;
+  }
+  .criteria-list li::before {
+    content: '✦';
+    color: var(--accent);
+    font-size: 10px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0;
+    color: var(--soft);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Form */
+  .form-section {
+    animation: fadeUp 0.7s ease 0.45s both;
+  }
+  .form-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .form-section .form-sub {
+    font-size: 14px;
+    color: var(--soft);
+    margin-bottom: 1.8rem;
+  }
+
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--soft);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0 14px;
+    height: 48px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .form-group textarea {
+    height: auto;
+    padding: 14px;
+    resize: none;
+    line-height: 1.6;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(200,80,42,0.1);
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: #C4B8AE; }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '↓';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--soft);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-note {
+    font-size: 11px;
+    color: var(--soft);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .submit-btn {
+    width: 100%;
+    height: 54px;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 1.6rem;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn:hover { background: #2E2418; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  .fine-print {
+    font-size: 11px;
+    color: var(--soft);
+    text-align: center;
+    margin-top: 1.2rem;
+    line-height: 1.7;
+    padding: 0 1rem;
+  }
+
+  /* Success screen */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 4rem 1rem 2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .success-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .success-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .success-screen p {
+    font-size: 15px;
+    color: var(--soft);
+    line-height: 1.8;
+    max-width: 360px;
+    margin: 0 auto 1.5rem;
+  }
+  .success-num {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0.5rem 0;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 11px;
+    color: var(--soft);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 480px) {
+    .form-row { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Main content -->
+  <div id="main">
+    <div class="hero">
+      <div class="round-badge">🎉 &nbsp; Round 2 — Official Selection</div>
+      <h1>Congratulations.<br>You <em>made it.</em></h1>
+      <p>Not everyone gets this far. We're currently accepting applications — 21 spots still remaining. Please complete the form below to be considered for the next stage.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num accent" id="spots-counter">21</span>
+        <span class="stat-label">Spots left</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Standards</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Negotiations</span>
+      </div>
+    </div>
+
+    <div class="criteria-box">
+      <div class="criteria-title">Minimum selection criteria</div>
+      <ul class="criteria-list">
+        <li>Must be able to make her laugh (proof of sense of humor required)</li>
+        <li>Emotionally available — not negotiable, not debatable</li>
+        <li>Has a plan, or at the very minimum, a vibe</li>
+        <li>Does not reply with "lol k" or "haha" and nothing else</li>
+        <li>Understands that being tall is a bonus, not a personality</li>
+      </ul>
+    </div>
+
+    <div class="divider">Submit your application</div>
+
+    <div class="form-section">
+      <h2>Round 2 Application Form</h2>
+      <p class="form-sub">All fields are reviewed personally. Incomplete submissions will be archived under "not serious."</p>
+
+      <div class="form-group">
+        <label>Full name</label>
+        <input type="text" id="inp-name" placeholder="As it appears on your Aadhaar card" />
+      </div>
+
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" id="inp-email" placeholder="We'll be in touch. Maybe." />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Height</label>
+          <input type="text" id="inp-height" placeholder="Be honest." />
+          <div class="form-note">Shoes & socks don't count.</div>
+        </div>
+        <div class="form-group">
+          <label>Zodiac sign</label>
+          <div class="select-wrap">
+            <select id="inp-zodiac">
+              <option value="">Select one</option>
+              <option>Aries ♈</option>
+              <option>Taurus ♉</option>
+              <option>Gemini ♊ (screened carefully)</option>
+              <option>Cancer ♋</option>
+              <option>Leo ♌</option>
+              <option>Virgo ♍</option>
+              <option>Libra ♎</option>
+              <option>Scorpio ♏</option>
+              <option>Sagittarius ♐</option>
+              <option>Capricorn ♑</option>
+              <option>Aquarius ♒</option>
+              <option>Pisces ♓</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Why should you advance to Round 3?</label>
+        <textarea id="inp-why" rows="3" placeholder="Sell yourself. Keep it under 50 words. Bullet points accepted."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Red flags you come with (honesty appreciated)</label>
+        <input type="text" id="inp-redflags" placeholder="We all have some. Go ahead." />
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">Submit Application →</button>
+      <p class="fine-print">By submitting this form you agree that all decisions are final, feelings-based, and entirely at her discretion. No refunds. No appeals. No "but I thought we had a moment."</p>
+    </div>
+  </div>
+
+  <!-- Success screen -->
+  <div class="success-screen" id="success">
+    <span class="success-icon">📬</span>
+    <h2>Application received.</h2>
+    <p>Your submission is under review.<br>Results will be announced when she feels like it.<br><br>Kindly do not follow up. She'll reach out if interested.</p>
+    <div class="success-num" id="final-spots"></div>
+    <p style="font-size: 13px; color: var(--soft);">spots still remaining. Competition is real.</p>
+  </div>
+
+  <div class="page-footer">© 2025 — All rights reserved. Her prerogative. Her rules.</div>
+</div>
+
+<script>
+  let spots = 21;
+
+  function submitForm() {
+    const name = document.getElementById('inp-name').value.trim();
+    const email = document.getElementById('inp-email').value.trim();
+    const height = document.getElementById('inp-height').value.trim();
+
+    if (!name || !email || !height) {
+      shakeBtn();
+      return;
+    }
+
+    if (!email.includes('@')) {
+      alert('That doesn\'t look like a real email. Attention to detail matters here.');
+      return;
+    }
+
+    spots = Math.max(0, spots - 1);
+    document.getElementById('spots-counter').textContent = spots;
+    document.getElementById('final-spots').textContent = spots;
+
+    document.getElementById('main').style.display = 'none';
+    const s = document.getElementById('success');
+    s.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function shakeBtn() {
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Please fill in name, email & height first.';
+    btn.style.background = '#A32D2D';
+    setTimeout(() => {
+      btn.textContent = 'Submit Application →';
+      btn.style.background = '';
+    }, 2000);
+  }
+</script>
+</body>
+</html>
